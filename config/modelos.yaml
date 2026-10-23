@@ -1,0 +1,39 @@
+# Modelos usados no estudo e protocolo de geração.
+# As chaves de API ficam no .env (não versionado); aqui ficam só os parâmetros,
+# para documentar exatamente com quais configurações cada coleta foi feita.
+#
+# Uso: python src/03_gerar.py <perfil>      (ex.: python src/03_gerar.py gemini-flash)
+#      python src/02_pylint.py <perfil>     (ex.: python src/02_pylint.py gemini-flash)
+
+# Protocolo: igual para todos os modelos (não altere no meio de uma coleta)
+protocolo:
+  max_tentativas: 3      # 1ª geração + até 2 pedidos de correção
+  tamanho_lote: 10       # chamadas em paralelo por lote
+
+# Perfis. "modelo" é o nome exato na API e também o nome da pasta em dados/.
+# temperatura: deixe null para usar o padrão do modelo.
+modelos:
+  gemini-flash:
+    provedor: gemini
+    modelo: gemini-2.5-flash
+    temperatura: null
+    requisicoes_por_minuto: 5     # plano gratuito; ajuste conforme o AI Studio
+
+  gpt-mini:
+    provedor: openai
+    modelo: gpt-5-mini
+    temperatura: null             # modelos de raciocínio da OpenAI recusam valores diferentes do padrão
+    requisicoes_por_minuto: 30    # ajuste conforme o nível da sua conta
+
+  claude-haiku:
+    provedor: anthropic
+    modelo: claude-haiku-5-5
+    temperatura: null             # padrão do modelo (os Claude mais novos recusam outros valores), como no gpt-mini
+    requisicoes_por_minuto: 30    # ajuste conforme o nível da sua conta na Anthropic
+
+  # Perfil de teste: devolve a solução de referência, sem chamar API nenhuma.
+  teste:
+    provedor: teste
+    modelo: teste-referencia
+    temperatura: null
+    requisicoes_por_minuto: null

@@ -1,0 +1,13 @@
+{
+  "slug": "book-store",
+  "perfil": "gpt-mini",
+  "modelo": "gpt-5-mini",
+  "tipo_esqueleto": "funcao",
+  "status_final": "passou",
+  "tentativas": 2,
+  "passou_na_primeira": false,
+  "status_por_tentativa": [
+    "falhou",
+    "passou"
+  ]
+}

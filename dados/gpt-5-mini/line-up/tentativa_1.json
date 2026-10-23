@@ -1,0 +1,15 @@
+{
+  "slug": "line-up",
+  "tentativa": 1,
+  "perfil": "gpt-mini",
+  "provedor": "openai",
+  "modelo": "gpt-5-mini",
+  "temperatura": null,
+  "data_hora": "2026-10-14T15:40:49.595646+00:00",
+  "segundos": 9.36,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nGiven a name and a number, your task is to produce a sentence using that name and that number as an [ordinal numeral][ordinal-numeral].\nYaʻqūb expects to use numbers from 1 up to 999.\n\nRules:\n\n- Numbers ending in 1 (unless ending in 11) → `\"st\"`\n- Numbers ending in 2 (unless ending in 12) → `\"nd\"`\n- Numbers ending in 3 (unless ending in 13) → `\"rd\"`\n- All other numbers → `\"th\"`\n\nExamples:\n\n- `\"Mary\", 1` → `\"Mary, you are the 1st customer we serve today. Thank you!\"`\n- `\"John\", 12` → `\"John, you are the 12th customer we serve today. Thank you!\"`\n- `\"Dahir\", 162` → `\"Dahir, you are the 162nd customer we serve today. Thank you!\"`\n\n[ordinal-numeral]: https://en.wikipedia.org/wiki/Ordinal_numeral\n\n## Starting code (`line_up.py`)\n\n```python\ndef line_up(name, number):\n    pass\n```\n\nReturn the complete contents of `line_up.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef line_up(name, number):\n    n = int(number)\n    # special case for 11, 12, 13\n    if 10 <= (n % 100) <= 13:\n        suffix = \"th\"\n    else:\n        last = n % 10\n        if last == 1:\n            suffix = \"st\"\n        elif last == 2:\n            suffix = \"nd\"\n        elif last == 3:\n            suffix = \"rd\"\n        else:\n            suffix = \"th\"\n    return f\"{name}, you are the {n}{suffix} customer we serve today. Thank you!\"\n```",
+  "codigo": "def line_up(name, number):\n    n = int(number)\n    # special case for 11, 12, 13\n    if 10 <= (n % 100) <= 13:\n        suffix = \"th\"\n    else:\n        last = n % 10\n        if last == 1:\n            suffix = \"st\"\n        elif last == 2:\n            suffix = \"nd\"\n        elif last == 3:\n            suffix = \"rd\"\n        else:\n            suffix = \"th\"\n    return f\"{name}, you are the {n}{suffix} customer we serve today. Thank you!\"\n",
+  "status": "passou",
+  "saida_testes": ".........................\n----------------------------------------------------------------------\nRan 25 tests in 0.001s\n\nOK"
+}

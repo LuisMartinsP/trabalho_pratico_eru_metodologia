@@ -1,0 +1,47 @@
+name: Coleta Gemini
+
+on:
+  schedule:
+    - cron: "0 21 * * *"   # todo dia às 21h UTC = 18h em Brasília
+  workflow_dispatch:        # permite disparar manualmente pela aba Actions
+
+permissions:
+  contents: write           # para fazer commit dos dados coletados
+
+concurrency:
+  group: coleta-gemini      # nunca roda duas coletas ao mesmo tempo
+  cancel-in-progress: false
+
+jobs:
+  coletar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        run: pip install pyyaml python-dotenv google-genai
+
+      - name: Preparar o Exercism (commit fixo do estudo)
+        run: python src/01_preparar_exercism.py
+
+      - name: Gerar soluções com o Gemini
+        continue-on-error: true   # quando a cota do dia acaba, o script sai com erro de propósito
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python src/03_gerar.py gemini-flash
+
+      - name: Salvar os dados no repositório
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dados/gemini-2.5-flash
+          if git diff --cached --quiet; then echo "Nada novo hoje."; exit 0; fi
+          git commit -m "Coleta Gemini $(date -u +%F)"
+          git pull --rebase
+          git push

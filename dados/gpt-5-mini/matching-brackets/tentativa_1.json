@@ -1,0 +1,15 @@
+{
+  "slug": "matching-brackets",
+  "tentativa": 1,
+  "perfil": "gpt-mini",
+  "provedor": "openai",
+  "modelo": "gpt-5-mini",
+  "temperatura": null,
+  "data_hora": "2026-10-14T15:41:12.868489+00:00",
+  "segundos": 7.1,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nGiven a string containing brackets `[]`, braces `{}`, parentheses `()`, or any combination thereof, verify that any and all pairs are matched and nested correctly.\nAny other characters should be ignored.\nFor example, `\"{what is (42)}?\"` is balanced and `\"[text}\"` is not.\n\n## Starting code (`matching_brackets.py`)\n\n```python\ndef is_paired(input_string):\n    pass\n```\n\nReturn the complete contents of `matching_brackets.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef is_paired(input_string):\n    \"\"\"Return True if all brackets in input_string are properly paired and nested.\"\"\"\n    if input_string is None:\n        return True\n\n    pairs = {')': '(', ']': '[', '}': '{'}\n    openings = set(pairs.values())\n    stack = []\n\n    for ch in input_string:\n        if ch in openings:\n            stack.append(ch)\n        elif ch in pairs:\n            if not stack or stack[-1] != pairs[ch]:\n                return False\n            stack.pop()\n\n    return not stack\n```",
+  "codigo": "def is_paired(input_string):\n    \"\"\"Return True if all brackets in input_string are properly paired and nested.\"\"\"\n    if input_string is None:\n        return True\n\n    pairs = {')': '(', ']': '[', '}': '{'}\n    openings = set(pairs.values())\n    stack = []\n\n    for ch in input_string:\n        if ch in openings:\n            stack.append(ch)\n        elif ch in pairs:\n            if not stack or stack[-1] != pairs[ch]:\n                return False\n            stack.pop()\n\n    return not stack\n",
+  "status": "passou",
+  "saida_testes": "....................\n----------------------------------------------------------------------\nRan 20 tests in 0.001s\n\nOK"
+}

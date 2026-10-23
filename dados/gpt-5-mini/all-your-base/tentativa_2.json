@@ -1,0 +1,15 @@
+{
+  "slug": "all-your-base",
+  "tentativa": 2,
+  "perfil": "gpt-mini",
+  "provedor": "openai",
+  "modelo": "gpt-5-mini",
+  "temperatura": null,
+  "data_hora": "2026-10-14T15:48:08.227995+00:00",
+  "segundos": 15.19,
+  "prompt": "Your code did not pass the tests. Test output:\n\n```\n.....E...............\n======================================================================\nERROR: test_empty_list (all_your_base_test.AllYourBaseTest.test_empty_list)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\LUISFE~1\\AppData\\Local\\Temp\\tmpo2qtkzmj\\all_your_base_test.py\", line 38, in test_empty_list\n    self.assertEqual(rebase(2, [], 10), [0])\n                     ~~~~~~^^^^^^^^^^^\n  File \"C:\\Users\\LUISFE~1\\AppData\\Local\\Temp\\tmpo2qtkzmj\\all_your_base.py\", line 7, in rebase\n    raise ValueError(\"digits must contain at least one digit\")\nValueError: digits must contain at least one digit\n\n----------------------------------------------------------------------\nRan 21 tests in 0.003s\n\nFAILED (errors=1)\n```\n\nFix the code and return the complete contents of `all_your_base.py` in a single ```python code block.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef rebase(input_base, digits, output_base):\n    if input_base < 2:\n        raise ValueError(\"input base must be >= 2\")\n    if output_base < 2:\n        raise ValueError(\"output base must be >= 2\")\n    if any((not isinstance(d, int)) or d < 0 or d >= input_base for d in digits):\n        raise ValueError(\"all digits must satisfy 0 <= d < input base\")\n\n    # Convert input digits to an integer value\n    value = 0\n    for d in digits:\n        value = value * input_base + d\n\n    # Special case for zero\n    if value == 0:\n        return [0]\n\n    # Convert integer value to output base digits\n    output_digits = []\n    while value > 0:\n        output_digits.append(value % output_base)\n        value //= output_base\n\n    return list(reversed(output_digits))\n```",
+  "codigo": "def rebase(input_base, digits, output_base):\n    if input_base < 2:\n        raise ValueError(\"input base must be >= 2\")\n    if output_base < 2:\n        raise ValueError(\"output base must be >= 2\")\n    if any((not isinstance(d, int)) or d < 0 or d >= input_base for d in digits):\n        raise ValueError(\"all digits must satisfy 0 <= d < input base\")\n\n    # Convert input digits to an integer value\n    value = 0\n    for d in digits:\n        value = value * input_base + d\n\n    # Special case for zero\n    if value == 0:\n        return [0]\n\n    # Convert integer value to output base digits\n    output_digits = []\n    while value > 0:\n        output_digits.append(value % output_base)\n        value //= output_base\n\n    return list(reversed(output_digits))\n",
+  "status": "passou",
+  "saida_testes": ".....................\n----------------------------------------------------------------------\nRan 21 tests in 0.001s\n\nOK"
+}

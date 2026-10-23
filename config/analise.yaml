@@ -1,0 +1,22 @@
+# Parâmetros da análise (etapas 2 a 7). Ficam registrados no manifesto de cada
+# tabela gerada; se mudarem, as etapas seguintes avisam que é preciso rodar de novo.
+# Ver docs/decisoes_metodologicas.md, seção 12.
+
+# Fontes analisadas quando os scripts rodam sem argumentos.
+# "referencia" = soluções de referência do Exercism (linha de base humana);
+# os modelos usam o nome da pasta em dados/ (o nome do modelo na API).
+fontes:
+  - referencia
+  - gpt-5-mini
+
+paradigma:
+  regra_oficial: d    # d = pontos por operação (src/paradigma_operacoes.py); c = por comando (src/paradigma_adaptado.py)
+  min_pontos: 3       # com menos pontos funcionais + procedurais, o rótulo vira "indeterminado"
+
+smells:
+  excluir_herdados_do_esqueleto: true   # a análise principal usa só os avisos próprios da solução
+
+validacao:
+  semente: 2026        # sorteio da amostra (reprodutível)
+  por_estrato: 6       # soluções sorteadas por fonte × rótulo
+  casos_dificeis: 10   # estrato extra, reportado à parte

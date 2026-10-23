@@ -1,0 +1,15 @@
+{
+  "slug": "hello-world",
+  "tentativa": 1,
+  "perfil": "gpt-mini",
+  "provedor": "openai",
+  "modelo": "gpt-5-mini",
+  "temperatura": null,
+  "data_hora": "2026-10-14T15:36:32.164017+00:00",
+  "segundos": 4.17,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nThe classical introductory exercise.\nJust say \"Hello, World!\".\n\n[\"Hello, World!\"][hello-world] is the traditional first program for beginning programming in a new language or environment.\n\nThe objectives are simple:\n\n- Modify the provided code so that it produces the string \"Hello, World!\".\n- Run the test suite and make sure that it succeeds.\n- Submit your solution and check it at the website.\n\nIf everything goes well, you will be ready to fetch your first real exercise.\n\n[hello-world]: https://en.wikipedia.org/wiki/%22Hello,_world!%22_program\n\n## Starting code (`hello_world.py`)\n\n```python\ndef hello():\n    return 'Goodbye, Mars!'\n```\n\nReturn the complete contents of `hello_world.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef hello():\n    return 'Hello, World!'\n```",
+  "codigo": "def hello():\n    return 'Hello, World!'\n",
+  "status": "passou",
+  "saida_testes": ".\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK"
+}

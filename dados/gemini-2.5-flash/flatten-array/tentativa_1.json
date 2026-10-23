@@ -1,0 +1,15 @@
+{
+  "slug": "flatten-array",
+  "tentativa": 1,
+  "perfil": "gemini-flash",
+  "provedor": "gemini",
+  "modelo": "gemini-2.5-flash",
+  "temperatura": null,
+  "data_hora": "2026-10-23T19:50:26.062304+00:00",
+  "segundos": 56.26,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nTake a nested array of any depth and return a fully flattened array.\n\nNote that some language tracks may include null-like values in the input array, and the way these values are represented varies by track.\nSuch values should be excluded from the flattened array.\n\nAdditionally, the input may be of a different data type and contain different types, depending on the track.\n\nCheck the test suite for details.\n\n## Example\n\ninput: `[1, [2, 6, null], [[null, [4]], 5]]`\n\noutput: `[1, 2, 6, 4, 5]`\n\n## Starting code (`flatten_array.py`)\n\n```python\ndef flatten(iterable):\n    pass\n```\n\nReturn the complete contents of `flatten_array.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef flatten(iterable):\n    result = []\n    for item in iterable:\n        if isinstance(item, list):\n            # If the item is a list, recursively flatten it and extend the current result.\n            result.extend(flatten(item))\n        elif item is not None:\n            # If the item is not a list and is not null-like (None in Python),\n            # append it to the result.\n            result.append(item)\n    return result\n```",
+  "codigo": "def flatten(iterable):\n    result = []\n    for item in iterable:\n        if isinstance(item, list):\n            # If the item is a list, recursively flatten it and extend the current result.\n            result.extend(flatten(item))\n        elif item is not None:\n            # If the item is not a list and is not null-like (None in Python),\n            # append it to the result.\n            result.append(item)\n    return result\n",
+  "status": "passou",
+  "saida_testes": "...........\n----------------------------------------------------------------------\nRan 11 tests in 0.001s\n\nOK"
+}

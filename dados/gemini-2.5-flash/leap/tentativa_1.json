@@ -1,0 +1,14 @@
+{
+  "slug": "leap",
+  "tentativa": 1,
+  "provedor": "gemini",
+  "modelo": "gemini-2.5-flash",
+  "temperatura": null,
+  "data_hora": "2026-10-14T14:41:06.432660+00:00",
+  "segundos": 4.63,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nYour task is to determine whether a given year is a leap year.\n\n## Starting code (`leap.py`)\n\n```python\ndef leap_year(year):\n    pass\n```\n\nReturn the complete contents of `leap.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef leap_year(year):\n    \"\"\"\n    Determines whether a given year is a leap year.\n\n    A year is a leap year if it is divisible by 4,\n    unless it is divisible by 100 but not by 400.\n\n    :param year: The year to check.\n    :return: True if the year is a leap year, False otherwise.\n    \"\"\"\n    return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)\n```",
+  "codigo": "def leap_year(year):\n    \"\"\"\n    Determines whether a given year is a leap year.\n\n    A year is a leap year if it is divisible by 4,\n    unless it is divisible by 100 but not by 400.\n\n    :param year: The year to check.\n    :return: True if the year is a leap year, False otherwise.\n    \"\"\"\n    return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)\n",
+  "status": "passou",
+  "saida_testes": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.000s\n\nOK"
+}

@@ -1,0 +1,15 @@
+{
+  "slug": "scrabble-score",
+  "tentativa": 1,
+  "perfil": "gpt-mini",
+  "provedor": "openai",
+  "modelo": "gpt-5-mini",
+  "temperatura": null,
+  "data_hora": "2026-10-14T15:41:48.917353+00:00",
+  "segundos": 16.16,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nYour task is to compute a word's Scrabble score by summing the values of its letters.\n\nThe letters are valued as follows:\n\n| Letter                       | Value |\n| ---------------------------- | ----- |\n| A, E, I, O, U, L, N, R, S, T | 1     |\n| D, G                         | 2     |\n| B, C, M, P                   | 3     |\n| F, H, V, W, Y                | 4     |\n| K                            | 5     |\n| J, X                         | 8     |\n| Q, Z                         | 10    |\n\nFor example, the word \"cabbage\" is worth 14 points:\n\n- 3 points for C\n- 1 point for A\n- 3 points for B\n- 3 points for B\n- 1 point for A\n- 2 points for G\n- 1 point for E\n\n## Starting code (`scrabble_score.py`)\n\n```python\ndef score(word):\n    pass\n```\n\nReturn the complete contents of `scrabble_score.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef score(word):\n    \"\"\"\n    Compute and return the Scrabble score for the given word.\n    Non-letter characters are ignored. The function is case-insensitive.\n    \"\"\"\n    if not word:\n        return 0\n\n    values = {\n        **dict.fromkeys(list(\"AEIOULNRSTaeioulnrst\"), 1),\n        **dict.fromkeys(list(\"DGdg\"), 2),\n        **dict.fromkeys(list(\"BCMPbcmp\"), 3),\n        **dict.fromkeys(list(\"FHVWYfhvwy\"), 4),\n        **dict.fromkeys(list(\"Kk\"), 5),\n        **dict.fromkeys(list(\"JXjx\"), 8),\n        **dict.fromkeys(list(\"QZqz\"), 10),\n    }\n\n    total = 0\n    for ch in word:\n        total += values.get(ch, 0)\n    return total\n```",
+  "codigo": "def score(word):\n    \"\"\"\n    Compute and return the Scrabble score for the given word.\n    Non-letter characters are ignored. The function is case-insensitive.\n    \"\"\"\n    if not word:\n        return 0\n\n    values = {\n        **dict.fromkeys(list(\"AEIOULNRSTaeioulnrst\"), 1),\n        **dict.fromkeys(list(\"DGdg\"), 2),\n        **dict.fromkeys(list(\"BCMPbcmp\"), 3),\n        **dict.fromkeys(list(\"FHVWYfhvwy\"), 4),\n        **dict.fromkeys(list(\"Kk\"), 5),\n        **dict.fromkeys(list(\"JXjx\"), 8),\n        **dict.fromkeys(list(\"QZqz\"), 10),\n    }\n\n    total = 0\n    for ch in word:\n        total += values.get(ch, 0)\n    return total\n",
+  "status": "passou",
+  "saida_testes": "...........\n----------------------------------------------------------------------\nRan 11 tests in 0.001s\n\nOK"
+}

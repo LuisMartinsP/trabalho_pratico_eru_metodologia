@@ -1,0 +1,15 @@
+{
+  "slug": "eliuds-eggs",
+  "tentativa": 1,
+  "perfil": "gpt-mini",
+  "provedor": "openai",
+  "modelo": "gpt-5-mini",
+  "temperatura": null,
+  "data_hora": "2026-10-14T15:41:21.579212+00:00",
+  "segundos": 15.81,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nYour task is to count the number of 1 bits in the binary representation of a number.\n\n## Restrictions\n\nKeep your hands off that bit-count functionality provided by your standard library!\nSolve this one yourself using other basic tools instead.\n\n## Starting code (`eliuds_eggs.py`)\n\n```python\ndef egg_count(display_value):\n    pass\n```\n\nReturn the complete contents of `eliuds_eggs.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef egg_count(display_value):\n    \"\"\"\n    Count the number of 1 bits in the binary representation of a non-negative integer.\n    Uses Brian Kernighan's algorithm to repeatedly clear the lowest-set bit.\n    \"\"\"\n    if not isinstance(display_value, int):\n        raise TypeError(\"display_value must be an int\")\n    # For negative inputs, work with absolute value (tests are expected to use non-negative ints).\n    n = display_value if display_value >= 0 else -display_value\n    count = 0\n    while n:\n        n &= n - 1\n        count += 1\n    return count\n```",
+  "codigo": "def egg_count(display_value):\n    \"\"\"\n    Count the number of 1 bits in the binary representation of a non-negative integer.\n    Uses Brian Kernighan's algorithm to repeatedly clear the lowest-set bit.\n    \"\"\"\n    if not isinstance(display_value, int):\n        raise TypeError(\"display_value must be an int\")\n    # For negative inputs, work with absolute value (tests are expected to use non-negative ints).\n    n = display_value if display_value >= 0 else -display_value\n    count = 0\n    while n:\n        n &= n - 1\n        count += 1\n    return count\n",
+  "status": "passou",
+  "saida_testes": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK"
+}

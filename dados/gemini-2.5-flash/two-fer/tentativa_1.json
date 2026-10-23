@@ -1,0 +1,15 @@
+{
+  "slug": "two-fer",
+  "tentativa": 1,
+  "perfil": "gemini-flash",
+  "provedor": "gemini",
+  "modelo": "gemini-2.5-flash",
+  "temperatura": null,
+  "data_hora": "2026-10-23T19:51:56.253626+00:00",
+  "segundos": 28.58,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nYour task is to determine what you will say as you give away the extra cookie.\n\nIf you know the person's name (e.g. if they're named Do-yun), then you will say:\n\n```text\nOne for Do-yun, one for me.\n```\n\nIf you don't know the person's name, you will say _you_ instead.\n\n```text\nOne for you, one for me.\n```\n\nHere are some examples:\n\n| Name   | Dialogue                    |\n| :----- | :-------------------------- |\n| Alice  | One for Alice, one for me.  |\n| Bohdan | One for Bohdan, one for me. |\n|        | One for you, one for me.    |\n| Zaphod | One for Zaphod, one for me. |\n\n## Starting code (`two_fer.py`)\n\n```python\ndef two_fer(name):\n    pass\n```\n\nReturn the complete contents of `two_fer.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef two_fer(name):\n    if name:\n        return f\"One for {name}, one for me.\"\n    else:\n        return \"One for you, one for me.\"\n```",
+  "codigo": "def two_fer(name):\n    if name:\n        return f\"One for {name}, one for me.\"\n    else:\n        return \"One for you, one for me.\"\n",
+  "status": "falhou",
+  "saida_testes": "..E\n======================================================================\nERROR: test_no_name_given (two_fer_test.TwoFerTest.test_no_name_given)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\LUISFE~1\\AppData\\Local\\Temp\\tmpn81i9n88\\two_fer_test.py\", line 14, in test_no_name_given\n    self.assertEqual(two_fer(), \"One for you, one for me.\")\n                     ~~~~~~~^^\nTypeError: two_fer() missing 1 required positional argument: 'name'\n\n----------------------------------------------------------------------\nRan 3 tests in 0.001s\n\nFAILED (errors=1)"
+}

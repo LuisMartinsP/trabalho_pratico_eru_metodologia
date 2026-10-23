@@ -1,0 +1,12 @@
+{
+  "slug": "scrabble-score",
+  "perfil": "gpt-mini",
+  "modelo": "gpt-5-mini",
+  "tipo_esqueleto": "funcao",
+  "status_final": "passou",
+  "tentativas": 1,
+  "passou_na_primeira": true,
+  "status_por_tentativa": [
+    "passou"
+  ]
+}

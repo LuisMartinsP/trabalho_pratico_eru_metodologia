@@ -1,0 +1,15 @@
+{
+  "slug": "two-fer",
+  "tentativa": 1,
+  "perfil": "gpt-mini",
+  "provedor": "openai",
+  "modelo": "gpt-5-mini",
+  "temperatura": null,
+  "data_hora": "2026-10-14T15:41:01.994148+00:00",
+  "segundos": 21.76,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nYour task is to determine what you will say as you give away the extra cookie.\n\nIf you know the person's name (e.g. if they're named Do-yun), then you will say:\n\n```text\nOne for Do-yun, one for me.\n```\n\nIf you don't know the person's name, you will say _you_ instead.\n\n```text\nOne for you, one for me.\n```\n\nHere are some examples:\n\n| Name   | Dialogue                    |\n| :----- | :-------------------------- |\n| Alice  | One for Alice, one for me.  |\n| Bohdan | One for Bohdan, one for me. |\n|        | One for you, one for me.    |\n| Zaphod | One for Zaphod, one for me. |\n\n## Starting code (`two_fer.py`)\n\n```python\ndef two_fer(name):\n    pass\n```\n\nReturn the complete contents of `two_fer.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef two_fer(name):\n    \"\"\"\n    Return the two-fer phrase for the given name.\n    If name is None or an empty/whitespace-only string, use 'you'.\n    \"\"\"\n    if name is None:\n        person = \"you\"\n    else:\n        # Convert to string and treat whitespace-only as empty\n        s = str(name)\n        person = \"you\" if s.strip() == \"\" else s\n    return f\"One for {person}, one for me.\"\n```",
+  "codigo": "def two_fer(name):\n    \"\"\"\n    Return the two-fer phrase for the given name.\n    If name is None or an empty/whitespace-only string, use 'you'.\n    \"\"\"\n    if name is None:\n        person = \"you\"\n    else:\n        # Convert to string and treat whitespace-only as empty\n        s = str(name)\n        person = \"you\" if s.strip() == \"\" else s\n    return f\"One for {person}, one for me.\"\n",
+  "status": "falhou",
+  "saida_testes": "..E\n======================================================================\nERROR: test_no_name_given (two_fer_test.TwoFerTest.test_no_name_given)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\LUISFE~1\\AppData\\Local\\Temp\\tmpbjtpnv4s\\two_fer_test.py\", line 14, in test_no_name_given\n    self.assertEqual(two_fer(), \"One for you, one for me.\")\n                     ~~~~~~~^^\nTypeError: two_fer() missing 1 required positional argument: 'name'\n\n----------------------------------------------------------------------\nRan 3 tests in 0.002s\n\nFAILED (errors=1)"
+}

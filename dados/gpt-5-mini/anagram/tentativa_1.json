@@ -1,0 +1,15 @@
+{
+  "slug": "anagram",
+  "tentativa": 1,
+  "perfil": "gpt-mini",
+  "provedor": "openai",
+  "modelo": "gpt-5-mini",
+  "temperatura": null,
+  "data_hora": "2026-10-14T15:40:26.064156+00:00",
+  "segundos": 17.63,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nGiven a target word and one or more candidate words, your task is to find the candidates that are anagrams of the target.\n\nAn anagram is a rearrangement of letters to form a new word: for example `\"owns\"` is an anagram of `\"snow\"`.\nA word is _not_ its own anagram: for example, `\"stop\"` is not an anagram of `\"stop\"`.\n\nThe target word and candidate words are made up of one or more ASCII alphabetic characters (`A`-`Z` and `a`-`z`).\nLowercase and uppercase characters are equivalent: for example, `\"PoTS\"` is an anagram of `\"sTOp\"`, but `\"StoP\"` is not an anagram of `\"sTOp\"`.\nThe words you need to find should be taken from the candidate words, using the same letter case.\n\nGiven the target `\"stone\"` and the candidate words `\"stone\"`, `\"tones\"`, `\"banana\"`, `\"tons\"`, `\"notes\"`, and `\"Seton\"`, the anagram words you need to find are `\"tones\"`, `\"notes\"`, and `\"Seton\"`.\n\n## Starting code (`anagram.py`)\n\n```python\ndef find_anagrams(word, candidates):\n    pass\n```\n\nReturn the complete contents of `anagram.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef find_anagrams(word, candidates):\n    \"\"\"\n    Return a list of candidates that are anagrams of the given word.\n\n    Comparison is case-insensitive. A candidate that is identical to the\n    word (case-insensitive) is NOT considered an anagram.\n    \"\"\"\n    target = word.lower()\n    target_sorted = sorted(target)\n\n    result = []\n    for cand in candidates:\n        cand_lower = cand.lower()\n        if cand_lower == target:\n            # A word is not its own anagram (case-insensitive equality)\n            continue\n        if sorted(cand_lower) == target_sorted:\n            result.append(cand)\n    return result\n```",
+  "codigo": "def find_anagrams(word, candidates):\n    \"\"\"\n    Return a list of candidates that are anagrams of the given word.\n\n    Comparison is case-insensitive. A candidate that is identical to the\n    word (case-insensitive) is NOT considered an anagram.\n    \"\"\"\n    target = word.lower()\n    target_sorted = sorted(target)\n\n    result = []\n    for cand in candidates:\n        cand_lower = cand.lower()\n        if cand_lower == target:\n            # A word is not its own anagram (case-insensitive equality)\n            continue\n        if sorted(cand_lower) == target_sorted:\n            result.append(cand)\n    return result\n",
+  "status": "passou",
+  "saida_testes": "..................\n----------------------------------------------------------------------\nRan 18 tests in 0.001s\n\nOK"
+}

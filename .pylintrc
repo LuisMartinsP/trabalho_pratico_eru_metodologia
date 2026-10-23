@@ -1,0 +1,13 @@
+# Configuração do Pylint para o estudo de code smells.
+# Partimos da configuração padrão do Pylint e desativamos só o que não é
+# code smell, registrando o motivo de cada desativação.
+
+[MESSAGES CONTROL]
+# Docstrings: documentação, não smell de código. Na configuração padrão, elas
+# eram 82% dos avisos nas soluções de referência (C0114 em 97% das soluções,
+# C0116 em 95%) e distorciam as densidades em soluções pequenas.
+# Ver docs/decisoes_metodologicas.md.
+disable=
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring

@@ -1,0 +1,15 @@
+{
+  "slug": "flatten-array",
+  "tentativa": 1,
+  "perfil": "gpt-mini",
+  "provedor": "openai",
+  "modelo": "gpt-5-mini",
+  "temperatura": null,
+  "data_hora": "2026-10-14T15:40:46.895552+00:00",
+  "segundos": 6.66,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nTake a nested array of any depth and return a fully flattened array.\n\nNote that some language tracks may include null-like values in the input array, and the way these values are represented varies by track.\nSuch values should be excluded from the flattened array.\n\nAdditionally, the input may be of a different data type and contain different types, depending on the track.\n\nCheck the test suite for details.\n\n## Example\n\ninput: `[1, [2, 6, null], [[null, [4]], 5]]`\n\noutput: `[1, 2, 6, 4, 5]`\n\n## Starting code (`flatten_array.py`)\n\n```python\ndef flatten(iterable):\n    pass\n```\n\nReturn the complete contents of `flatten_array.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\nfrom collections.abc import Iterable\n\ndef flatten(iterable):\n    \"\"\"\n    Flatten a nested iterable (any depth) into a flat list.\n    Excludes None values. Treats strings and bytes as atomic (not iterated).\n    \"\"\"\n    def _is_iterable(obj):\n        return isinstance(obj, Iterable) and not isinstance(obj, (str, bytes, bytearray))\n\n    result = []\n\n    # If the top-level value is None, return empty list\n    if iterable is None:\n        return result\n\n    # If top-level is not an iterable (or is a string/bytes), return it as single element (unless None)\n    if not _is_iterable(iterable):\n        return [iterable]\n\n    for item in iterable:\n        if item is None:\n            continue\n        if _is_iterable(item):\n            result.extend(flatten(item))\n        else:\n            result.append(item)\n\n    return result\n```",
+  "codigo": "from collections.abc import Iterable\n\ndef flatten(iterable):\n    \"\"\"\n    Flatten a nested iterable (any depth) into a flat list.\n    Excludes None values. Treats strings and bytes as atomic (not iterated).\n    \"\"\"\n    def _is_iterable(obj):\n        return isinstance(obj, Iterable) and not isinstance(obj, (str, bytes, bytearray))\n\n    result = []\n\n    # If the top-level value is None, return empty list\n    if iterable is None:\n        return result\n\n    # If top-level is not an iterable (or is a string/bytes), return it as single element (unless None)\n    if not _is_iterable(iterable):\n        return [iterable]\n\n    for item in iterable:\n        if item is None:\n            continue\n        if _is_iterable(item):\n            result.extend(flatten(item))\n        else:\n            result.append(item)\n\n    return result\n",
+  "status": "passou",
+  "saida_testes": "...........\n----------------------------------------------------------------------\nRan 11 tests in 0.001s\n\nOK"
+}

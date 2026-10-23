@@ -1,0 +1,15 @@
+{
+  "slug": "isogram",
+  "tentativa": 1,
+  "perfil": "gpt-mini",
+  "provedor": "openai",
+  "modelo": "gpt-5-mini",
+  "temperatura": null,
+  "data_hora": "2026-10-14T15:40:03.915604+00:00",
+  "segundos": 17.51,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nDetermine if a word or phrase is an isogram.\n\nAn isogram (also known as a \"non-pattern word\") is a word or phrase without a repeating letter, however spaces and hyphens are allowed to appear multiple times.\n\nExamples of isograms:\n\n- lumberjacks\n- background\n- downstream\n- six-year-old\n\nThe word _isograms_, however, is not an isogram, because the s repeats.\n\n## Starting code (`isogram.py`)\n\n```python\ndef is_isogram(phrase):\n    pass\n```\n\nReturn the complete contents of `isogram.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef is_isogram(phrase):\n    \"\"\"\n    Determine whether a phrase is an isogram.\n\n    An isogram is a word or phrase without a repeating letter.\n    Spaces and hyphens are ignored.\n    \"\"\"\n    seen = set()\n    for ch in phrase:\n        if ch == ' ' or ch == '-':\n            continue\n        c = ch.lower()\n        if c in seen:\n            return False\n        seen.add(c)\n    return True\n```",
+  "codigo": "def is_isogram(phrase):\n    \"\"\"\n    Determine whether a phrase is an isogram.\n\n    An isogram is a word or phrase without a repeating letter.\n    Spaces and hyphens are ignored.\n    \"\"\"\n    seen = set()\n    for ch in phrase:\n        if ch == ' ' or ch == '-':\n            continue\n        c = ch.lower()\n        if c in seen:\n            return False\n        seen.add(c)\n    return True\n",
+  "status": "passou",
+  "saida_testes": "..............\n----------------------------------------------------------------------\nRan 14 tests in 0.001s\n\nOK"
+}

@@ -1,0 +1,15 @@
+{
+  "slug": "dnd-character",
+  "tentativa": 2,
+  "perfil": "gpt-mini",
+  "provedor": "openai",
+  "modelo": "gpt-5-mini",
+  "temperatura": null,
+  "data_hora": "2026-10-14T15:47:25.643269+00:00",
+  "segundos": 4.15,
+  "prompt": "Your code did not pass the tests. Test output:\n\n```\n.................E.\n======================================================================\nERROR: test_random_ability_is_within_range (dnd_character_test.DndCharacterTest.test_random_ability_is_within_range)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\LUISFE~1\\AppData\\Local\\Temp\\tmpcit7kb4e\\dnd_character_test.py\", line 63, in test_random_ability_is_within_range\n    score = Character().ability()\n            ^^^^^^^^^^^^^^^^^^^\nAttributeError: 'Character' object has no attribute 'ability'\n\n----------------------------------------------------------------------\nRan 19 tests in 0.002s\n\nFAILED (errors=1)\n```\n\nFix the code and return the complete contents of `dnd_character.py` in a single ```python code block.\nDo not include tests or explanations.",
+  "resposta": "```python\nimport random\n\nclass Character:\n    def __init__(self):\n        self.strength = self.ability()\n        self.dexterity = self.ability()\n        self.constitution = self.ability()\n        self.intelligence = self.ability()\n        self.wisdom = self.ability()\n        self.charisma = self.ability()\n        self.hitpoints = 10 + modifier(self.constitution)\n\n    def ability(self):\n        rolls = [random.randint(1, 6) for _ in range(4)]\n        rolls.remove(min(rolls))  # drop the lowest die\n        return sum(rolls)\n\ndef modifier(value):\n    return (value - 10) // 2\n```",
+  "codigo": "import random\n\nclass Character:\n    def __init__(self):\n        self.strength = self.ability()\n        self.dexterity = self.ability()\n        self.constitution = self.ability()\n        self.intelligence = self.ability()\n        self.wisdom = self.ability()\n        self.charisma = self.ability()\n        self.hitpoints = 10 + modifier(self.constitution)\n\n    def ability(self):\n        rolls = [random.randint(1, 6) for _ in range(4)]\n        rolls.remove(min(rolls))  # drop the lowest die\n        return sum(rolls)\n\ndef modifier(value):\n    return (value - 10) // 2\n",
+  "status": "passou",
+  "saida_testes": "...................\n----------------------------------------------------------------------\nRan 19 tests in 0.001s\n\nOK"
+}

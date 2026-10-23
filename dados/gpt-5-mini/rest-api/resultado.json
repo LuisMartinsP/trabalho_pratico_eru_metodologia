@@ -1,0 +1,14 @@
+{
+  "slug": "rest-api",
+  "perfil": "gpt-mini",
+  "modelo": "gpt-5-mini",
+  "tipo_esqueleto": "classe",
+  "status_final": "passou",
+  "tentativas": 3,
+  "passou_na_primeira": false,
+  "status_por_tentativa": [
+    "falhou",
+    "falhou",
+    "passou"
+  ]
+}

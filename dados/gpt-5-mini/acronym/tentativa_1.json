@@ -1,0 +1,15 @@
+{
+  "slug": "acronym",
+  "tentativa": 1,
+  "perfil": "gpt-mini",
+  "provedor": "openai",
+  "modelo": "gpt-5-mini",
+  "temperatura": null,
+  "data_hora": "2026-10-14T15:41:32.750838+00:00",
+  "segundos": 26.98,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Instructions\n\nConvert a phrase to its acronym.\n\nTechies love their TLA (Three Letter Acronyms)!\n\nHelp generate some jargon by writing a program that converts a long name like Portable Network Graphics to its acronym (PNG).\n\nPunctuation is handled as follows: hyphens are word separators (like whitespace); all other punctuation can be removed from the input.\n\nFor example:\n\n| Input                     | Output |\n| ------------------------- | ------ |\n| As Soon As Possible       | ASAP   |\n| Liquid-crystal display    | LCD    |\n| Thank George It's Friday! | TGIF   |\n\n## Starting code (`acronym.py`)\n\n```python\ndef abbreviate(words):\n    pass\n```\n\nReturn the complete contents of `acronym.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\nimport string\n\ndef abbreviate(words):\n    if not words:\n        return \"\"\n    # Treat hyphens as word separators\n    s = words.replace('-', ' ')\n    # Remove all other punctuation\n    punctuation_to_remove = ''.join(ch for ch in string.punctuation if ch != '-')\n    s = s.translate(str.maketrans('', '', punctuation_to_remove))\n    # Split into words and take first letter of each, uppercase it\n    parts = s.split()\n    return ''.join(p[0].upper() for p in parts if p)\n```",
+  "codigo": "import string\n\ndef abbreviate(words):\n    if not words:\n        return \"\"\n    # Treat hyphens as word separators\n    s = words.replace('-', ' ')\n    # Remove all other punctuation\n    punctuation_to_remove = ''.join(ch for ch in string.punctuation if ch != '-')\n    s = s.translate(str.maketrans('', '', punctuation_to_remove))\n    # Split into words and take first letter of each, uppercase it\n    parts = s.split()\n    return ''.join(p[0].upper() for p in parts if p)\n",
+  "status": "passou",
+  "saida_testes": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.001s\n\nOK"
+}
