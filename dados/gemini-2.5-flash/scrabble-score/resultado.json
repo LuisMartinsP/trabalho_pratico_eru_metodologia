@@ -1,0 +1,12 @@
+{
+  "slug": "scrabble-score",
+  "perfil": "gemini-flash",
+  "modelo": "gemini-2.5-flash",
+  "tipo_esqueleto": "funcao",
+  "status_final": "passou",
+  "tentativas": 1,
+  "passou_na_primeira": true,
+  "status_por_tentativa": [
+    "passou"
+  ]
+}

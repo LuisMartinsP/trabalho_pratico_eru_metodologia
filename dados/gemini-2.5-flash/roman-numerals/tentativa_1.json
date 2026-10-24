@@ -1,0 +1,15 @@
+{
+  "slug": "roman-numerals",
+  "tentativa": 1,
+  "perfil": "gemini-flash",
+  "provedor": "gemini",
+  "modelo": "gemini-2.5-flash",
+  "temperatura": null,
+  "data_hora": "2026-10-24T22:51:06.691841+00:00",
+  "segundos": 20.7,
+  "prompt": "You are given a programming exercise. Implement the solution in Python.\n\n## Instructions\n\n# Introduction\n\nYour task is to convert a number from Arabic numerals to Roman numerals.\n\nFor this exercise, we are only concerned about traditional Roman numerals, in which the largest number is MMMCMXCIX (or 3,999).\n\n~~~~exercism/note\nThere are lots of different ways to convert between Arabic and Roman numerals.\nWe recommend taking a naive approach first to familiarise yourself with the concept of Roman numerals and then search for more efficient methods.\n\nMake sure to check out our Deep Dive video at the end to explore the different approaches you can take!\n~~~~\n\n## Starting code (`roman_numerals.py`)\n\n```python\ndef roman(number):\n    pass\n```\n\nReturn the complete contents of `roman_numerals.py` in a single ```python code block.\nKeep the names and signatures from the starting code, because the tests import them.\nDo not include tests or explanations.",
+  "resposta": "```python\ndef roman(number):\n    roman_map = [\n        (1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),\n        (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),\n        (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'),\n        (1, 'I')\n    ]\n\n    result = \"\"\n    for value, symbol in roman_map:\n        while number >= value:\n            result += symbol\n            number -= value\n    return result\n```",
+  "codigo": "def roman(number):\n    roman_map = [\n        (1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),\n        (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),\n        (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'),\n        (1, 'I')\n    ]\n\n    result = \"\"\n    for value, symbol in roman_map:\n        while number >= value:\n            result += symbol\n            number -= value\n    return result\n",
+  "status": "passou",
+  "saida_testes": "...........................\n----------------------------------------------------------------------\nRan 27 tests in 0.001s\n\nOK"
+}
