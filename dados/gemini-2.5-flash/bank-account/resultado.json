@@ -1,0 +1,12 @@
+{
+  "slug": "bank-account",
+  "perfil": "gemini-flash",
+  "modelo": "gemini-2.5-flash",
+  "tipo_esqueleto": "classe",
+  "status_final": "passou",
+  "tentativas": 1,
+  "passou_na_primeira": true,
+  "status_por_tentativa": [
+    "passou"
+  ]
+}

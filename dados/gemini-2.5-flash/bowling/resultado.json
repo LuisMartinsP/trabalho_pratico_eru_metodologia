@@ -1,0 +1,13 @@
+{
+  "slug": "bowling",
+  "perfil": "gemini-flash",
+  "modelo": "gemini-2.5-flash",
+  "tipo_esqueleto": "classe",
+  "status_final": "passou",
+  "tentativas": 2,
+  "passou_na_primeira": false,
+  "status_por_tentativa": [
+    "falhou",
+    "passou"
+  ]
+}
