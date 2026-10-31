@@ -1,0 +1,14 @@
+{
+  "slug": "camicia",
+  "perfil": "gemini-flash",
+  "modelo": "gemini-2.5-flash",
+  "tipo_esqueleto": "funcao",
+  "status_final": "passou",
+  "tentativas": 3,
+  "passou_na_primeira": false,
+  "status_por_tentativa": [
+    "falhou",
+    "falhou",
+    "passou"
+  ]
+}

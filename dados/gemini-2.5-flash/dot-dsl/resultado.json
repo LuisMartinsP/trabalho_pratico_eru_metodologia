@@ -1,0 +1,14 @@
+{
+  "slug": "dot-dsl",
+  "perfil": "gemini-flash",
+  "modelo": "gemini-2.5-flash",
+  "tipo_esqueleto": "classe",
+  "status_final": "falhou",
+  "tentativas": 3,
+  "passou_na_primeira": false,
+  "status_por_tentativa": [
+    "falhou",
+    "falhou",
+    "falhou"
+  ]
+}
