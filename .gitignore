@@ -10,6 +10,9 @@ __pycache__/
 dados/*
 # As respostas das LLMs (gemini-2.5-flash, gpt-5-mini) ficam só localmente;
 # serão adicionadas ao repositório depois.
+# Exceção: o banco SQLite (gerado por src/09_banco.py) reúne as tabelas e o código das
+# soluções num arquivo só.
+!dados/estudo.sqlite
 
 # Chaves de API (nunca versionar)
 .env
