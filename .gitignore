@@ -8,9 +8,8 @@ __pycache__/
 
 # Cópias de repositórios e downloads grandes (regeráveis pelos scripts)
 dados/*
-# exceções: as respostas das LLMs (não regeráveis; a do Gemini é coletada pelo GitHub Actions)
-!dados/gemini-2.5-flash/
-!dados/gpt-5-mini/
+# As respostas das LLMs (gemini-2.5-flash, gpt-5-mini) ficam só localmente;
+# serão adicionadas ao repositório depois.
 
 # Chaves de API (nunca versionar)
 .env

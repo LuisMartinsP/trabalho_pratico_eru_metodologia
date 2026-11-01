@@ -1,8 +1,10 @@
 name: Coleta Gemini
 
+# Coleta encerrada em 2026-11-01: agendamento diário desativado.
+# Mantido apenas o disparo manual para registro/reprodutibilidade.
 on:
-  schedule:
-    - cron: "0 21 * * *"   # todo dia às 21h UTC = 18h em Brasília
+  # schedule:
+  #   - cron: "0 21 * * *"   # todo dia às 21h UTC = 18h em Brasília
   workflow_dispatch:        # permite disparar manualmente pela aba Actions
 
 permissions:
