@@ -8,6 +8,7 @@
 fontes:
   - referencia
   - gpt-5-mini
+  - gemini-2.5-flash
 
 paradigma:
   regra_oficial: d    # d = pontos por operação (src/paradigma_operacoes.py); c = por comando (src/paradigma_adaptado.py)
