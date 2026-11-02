@@ -1,0 +1,7 @@
+grupo_esqueleto,apelido,n,avisos_100sloc,pct_procedural,pct_funcional
+classe,gemini-2.5-flash,31,3.06,64.5,3.2
+classe,gpt-5-mini,31,2.12,64.5,9.7
+classe,humano,31,1.54,45.2,16.1
+funcao,gemini-2.5-flash,85,4.27,70.6,1.2
+funcao,gpt-5-mini,85,2.59,65.9,7.1
+funcao,humano,85,3.42,31.8,24.7

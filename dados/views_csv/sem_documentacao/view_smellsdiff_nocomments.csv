@@ -1,0 +1,10 @@
+dificuldade,apelido,n,sloc_medio,avisos_por_solucao,avisos_100sloc,pct_procedural
+1-2,gemini-2.5-flash,58,18.3,0.43,2.36,58.6
+1-2,gpt-5-mini,58,18.2,0.22,1.23,51.7
+1-2,humano,58,13.6,0.38,2.79,25.9
+3-5,gemini-2.5-flash,48,40.0,1.73,4.32,83.3
+3-5,gpt-5-mini,48,42.2,1.21,2.86,81.3
+3-5,humano,48,32.8,0.9,2.73,41.7
+6-10,gemini-2.5-flash,10,55.1,2.5,4.54,60.0
+6-10,gpt-5-mini,10,62.7,1.8,2.87,70.0
+6-10,humano,10,40.9,0.9,2.2,60.0

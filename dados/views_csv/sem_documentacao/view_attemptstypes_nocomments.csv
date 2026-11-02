@@ -1,0 +1,17 @@
+apelido,tipo,saldo,avisos_acrescentados,avisos_removidos,passos_com_aumento,passos_com_reducao
+gemini-2.5-flash,Formatação,13,16,3,8,3
+gemini-2.5-flash,Complexidade,3,4,1,4,1
+gemini-2.5-flash,Design / encapsulamento,2,3,1,3,1
+gemini-2.5-flash,Tratamento de erros,1,1,0,1,0
+gemini-2.5-flash,Idioma Python,0,0,0,0,0
+gemini-2.5-flash,Código morto / inútil,0,2,2,2,2
+gemini-2.5-flash,Possível bug,-1,0,1,0,1
+gemini-2.5-flash,Legibilidade,-5,0,5,0,3
+gpt-5-mini,Tratamento de erros,7,8,1,5,1
+gpt-5-mini,Complexidade,6,8,2,6,2
+gpt-5-mini,Formatação,2,4,2,4,2
+gpt-5-mini,Design / encapsulamento,2,2,0,2,0
+gpt-5-mini,Legibilidade,-1,0,1,0,1
+gpt-5-mini,Idioma Python,-1,0,1,0,1
+gpt-5-mini,Código morto / inútil,-2,1,3,1,3
+gpt-5-mini,Possível bug,-2,0,2,0,2

@@ -13,6 +13,9 @@ dados/*
 # Exceção: o banco SQLite (gerado por src/08_banco.py) reúne as tabelas e o código das
 # soluções num arquivo só.
 !dados/estudo.sqlite
+# Exceção: os resultados das consultas ao banco, exportados em CSV (com e sem documentação)
+!dados/views_csv/
+dados/views_csv/_anteriores/
 
 # Chaves de API (nunca versionar)
 .env

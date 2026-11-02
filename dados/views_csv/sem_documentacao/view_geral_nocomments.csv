@@ -1,0 +1,4 @@
+apelido,solucoes,sloc_medio,avisos,avisos_por_solucao,avisos_100sloc,pct_sem_aviso,frac_funcional_media
+humano,116,23.9,74,0.64,2.67,64.7,0.44
+gpt-5-mini,116,31.9,89,0.77,2.4,67.2,0.21
+gemini-2.5-flash,116,30.4,133,1.15,3.77,52.6,0.1

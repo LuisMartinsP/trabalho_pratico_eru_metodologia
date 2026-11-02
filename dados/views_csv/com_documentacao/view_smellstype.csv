@@ -1,0 +1,9 @@
+tipo,humano,gpt,gemini,sol_humano,sol_gpt,sol_gemini
+Formatação,10,21,116,7,11,38
+Legibilidade,36,19,29,27,8,20
+Idioma Python,7,8,6,6,7,5
+Complexidade,5,30,22,4,15,11
+Design / encapsulamento,7,5,14,7,5,8
+Tratamento de erros,0,12,2,0,10,1
+Código morto / inútil,4,8,4,2,8,4
+Possível bug,6,0,2,6,0,2
