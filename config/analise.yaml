@@ -16,6 +16,14 @@ paradigma:
 
 smells:
   excluir_herdados_do_esqueleto: true   # a análise principal usa só os avisos próprios da solução
+  # Avisos de estilo ignorados na análise principal, seguindo Siddiq et al. (SCAM 2022): espaço em
+  # branco, quebra de linha final e nomes. Continuam registrados em avisos.csv e entram numa análise
+  # de sensibilidade. Decisão registrada em docs/decisoes_metodologicas.md, seção 13.
+  simbolos_ignorados:
+    - trailing-whitespace
+    - missing-final-newline
+    - trailing-newlines
+    - invalid-name
 
 validacao:
   semente: 2026        # sorteio da amostra (reprodutível)

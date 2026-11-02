@@ -14,8 +14,11 @@ Saídas:
 
 Definições (config/analise.yaml):
     n_avisos      avisos usados na análise: só os próprios da solução se
-                  excluir_herdados_do_esqueleto = true; todos, se false
+                  excluir_herdados_do_esqueleto = true; todos, se false; nos dois casos sem os
+                  símbolos de simbolos_ignorados (avisos de estilo, ver Siddiq et al. 2022)
+    n_ignorados   avisos que entrariam em n_avisos, mas são de símbolos ignorados
     densidade     100 × n_avisos / sloc
+    densidade_com_estilo  100 × (n_avisos + n_ignorados) / sloc, para a análise de sensibilidade
     paradigma     rótulo filtrado da regra oficial (com "indeterminado" abaixo de min_pontos)
     frac_funcional  pontos funcionais / (funcionais + procedurais) da regra oficial; vazio se 0 pontos
     paradigma_c   rótulo filtrado da outra regra (C), para a análise de sensibilidade
@@ -63,20 +66,27 @@ def tabela_analise(sol, av, par, exs, cfg):
     outra = "c" if regra == "d" else "d"
     excluir = cfg["smells"]["excluir_herdados_do_esqueleto"]
 
+    ignorados = set(cfg["smells"].get("simbolos_ignorados") or [])
+
     chave = ["fonte", "slug", "tentativa"]
     cont = av.groupby(chave).agg(n_avisos_todos=("simbolo", "size"),
                                  n_herdados=("herdado_esqueleto", "sum")).reset_index()
-    usados = av[~av["herdado_esqueleto"]] if excluir else av
+    candidatos = av[~av["herdado_esqueleto"]] if excluir else av
+    eh_ignorado = candidatos["simbolo"].isin(ignorados)
+    usados = candidatos[~eh_ignorado]
+    n_ign = candidatos[eh_ignorado].groupby(chave).size().rename("n_ignorados").reset_index()
     por_cat = (usados.groupby(chave + ["categoria"]).size().unstack(fill_value=0)
                .reindex(columns=CATEGORIAS, fill_value=0).reset_index())
 
-    d = (sol.merge(exs, on="slug", how="left")
-         .merge(cont, on=chave, how="left").merge(por_cat, on=chave, how="left"))
-    for c in ["n_avisos_todos", "n_herdados", *CATEGORIAS]:
+    d = (sol.merge(exs, on="slug", how="left").merge(cont, on=chave, how="left")
+         .merge(n_ign, on=chave, how="left").merge(por_cat, on=chave, how="left"))
+    for c in ["n_avisos_todos", "n_herdados", "n_ignorados", *CATEGORIAS]:
         d[c] = d[c].fillna(0).astype(int)
     d["n_avisos_proprios"] = d["n_avisos_todos"] - d["n_herdados"]
-    d["n_avisos"] = d["n_avisos_proprios"] if excluir else d["n_avisos_todos"]
-    d["densidade"] = np.where(d["sloc"] > 0, 100 * d["n_avisos"] / d["sloc"].where(d["sloc"] > 0), np.nan)
+    d["n_avisos"] = (d["n_avisos_proprios"] if excluir else d["n_avisos_todos"]) - d["n_ignorados"]
+    sloc = d["sloc"].where(d["sloc"] > 0)
+    d["densidade"] = np.where(d["sloc"] > 0, 100 * d["n_avisos"] / sloc, np.nan)
+    d["densidade_com_estilo"] = np.where(d["sloc"] > 0, 100 * (d["n_avisos"] + d["n_ignorados"]) / sloc, np.nan)
     d["grupo_esqueleto"] = np.where(d["tipo_esqueleto"] == "funcao", "funcao", "classe")
 
     p = par.rename(columns={f"filtrado_{regra}": "paradigma", f"rotulo_{regra}": "paradigma_sem_filtro",
@@ -89,7 +99,8 @@ def tabela_analise(sol, av, par, exs, cfg):
                 on=chave, how="left")
     colunas = ["fonte", "slug", "tentativa", "status", "aceita", "ultima", "tem_codigo", "erro_sintaxe",
                "dificuldade", "tipo_esqueleto", "grupo_esqueleto", "sloc_esqueleto", "sloc",
-               "n_avisos", "n_avisos_todos", "n_avisos_proprios", "n_herdados", *CATEGORIAS, "densidade",
+               "n_avisos", "n_avisos_todos", "n_avisos_proprios", "n_herdados", "n_ignorados", *CATEGORIAS,
+               "densidade", "densidade_com_estilo",
                "paradigma", "paradigma_sem_filtro", f"paradigma_{outra}", "pontos_func", "pontos_proc",
                "total_pontos", "frac_funcional", "classes_novas", "rotulo_dyer_original"]
     return d[colunas], outra
@@ -98,7 +109,8 @@ def tabela_analise(sol, av, par, exs, cfg):
 def tabela_pareada(analise, modelos, outra):
     ac = analise[analise["aceita"]]
     h = ac[ac["fonte"] == "referencia"].set_index("slug")
-    lado = ["sloc", "n_avisos", "n_avisos_todos", "densidade", *CATEGORIAS, "paradigma", "paradigma_sem_filtro",
+    lado = ["sloc", "n_avisos", "n_avisos_todos", "n_ignorados", "densidade", "densidade_com_estilo", *CATEGORIAS,
+            "paradigma", "paradigma_sem_filtro",
             f"paradigma_{outra}", "total_pontos", "frac_funcional", "tentativa"]
     blocos = []
     for modelo in modelos:
@@ -150,7 +162,8 @@ def main():
     for f in fontes:
         a = ac[ac["fonte"] == f]
         print(f"[{f}] aceitas: {len(a)} · avisos usados: {int(a['n_avisos'].sum())} "
-              f"(herdados fora: {cfg['smells']['excluir_herdados_do_esqueleto']}) · "
+              f"(herdados fora: {cfg['smells']['excluir_herdados_do_esqueleto']}; "
+              f"de estilo ignorados: {int(a['n_ignorados'].sum())}) · "
               f"paradigma determinado: {int(a['paradigma'].isin(DETERMINADOS).sum())}")
     for mdl in modelos:
         p = pareado[pareado["modelo"] == mdl]

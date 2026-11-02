@@ -280,7 +280,7 @@ Fixado antes de rodar o cruzamento entre paradigma e *smells*. Os parâmetros fi
   esqueleto não favorecia a LLM.
 - **Avisos de formatação** (`trailing-whitespace`, `line-too-long`...) continuam na
   análise; os resultados são reportados também por categoria do Pylint, para que o efeito
-  deles fique visível sem excluir nada depois de ver os dados.
+  deles fique visível sem excluir nada depois de ver os dados. **Alterado na seção 13.**
 - **Execução do Pylint:** um processo por fonte (`--recursive=y`), com `duplicate-code` e
   `cyclic-import` desligados, porque cada solução é independente. Conferido: dá os mesmos
   110 avisos da execução arquivo por arquivo nas soluções de referência.
@@ -307,3 +307,44 @@ Fixado antes de rodar o cruzamento entre paradigma e *smells*. Os parâmetros fi
   sem ponderação (IC de Wilson), e só nos rótulos determinados pelo filtro. Referência de
   comparação: Dyer e Chauhan validaram a regra original com 82% de concordância em 102
   arquivos.
+
+## 13. Segunda LLM, avisos de estilo e perguntas reorganizadas (ADOTADO, 02/11/2026)
+
+- **Fontes:** o gemini-2.5-flash entrou na análise (coleta completa em 01/11/2026: 129
+  exercícios, 120 aceitos). As comparações são pareadas por exercício: humano × cada modelo
+  e gpt-5-mini × gemini-2.5-flash.
+- **Avisos de estilo ignorados** (`config/analise.yaml`, `simbolos_ignorados`):
+  `trailing-whitespace`, `missing-final-newline`, `trailing-newlines` e `invalid-name`,
+  seguindo o critério publicado por Siddiq et al. (SCAM 2022), que ignoraram exatamente esses
+  quatro, além das docstrings (já desativadas no `.pylintrc`).
+  - **Quando foi decidido:** depois de ver os resultados com o Gemini, o que contraria o que a
+    seção 12 havia fixado. Motivo: 220 dos 336 avisos de formatação do Gemini eram
+    `trailing-whitespace`, quase todos (228 de 247 no total) em linhas em branco com
+    indentação, um aviso sem efeito no comportamento do código. A exclusão segue um critério
+    externo e já publicado, não escolhido a partir dos dados.
+  - **Transparência:** os avisos continuam registrados em `avisos.csv`; a análise com eles é
+    reportada como sensibilidade na QP2 e na QP3. A conclusão principal se mantém: o
+    gpt-5-mini empata com o humano nas duas versões; o Gemini tem mais avisos que o humano nas
+    duas, com efeito menor sem os de estilo (r = 0,54 contra 0,86).
+  - `line-too-long` continua na análise principal (também mantido por Siddiq et al.).
+- **Tipos de smell** (`src/catalogo_smells.py`): cada símbolo do Pylint foi atribuído a um de
+  nove tipos (formatação, legibilidade, convenção de nomes, idioma Python, complexidade,
+  design/encapsulamento, tratamento de erros, código morto, possível bug), porque as quatro
+  categorias do Pylint misturam problemas de natureza diferente. Com os símbolos ignorados,
+  "convenção de nomes" fica vazio na análise principal.
+- **Perguntas reorganizadas** (mesma numeração do artigo; `src/06_cruzamento.py`):
+  - QP1 (paradigma): como na seção 12, mais a concordância entre os modelos e a entropia de
+    Shannon dos rótulos por fonte;
+  - QP2 (*smells*): como na seção 12, mais o Wilcoxon pareado por tipo de smell, com correção
+    de Holm sobre todos os testes por tipo (tipos × pares de fontes);
+  - QP3 (escolha da LLM, nova): acerto na 1ª tentativa e no final (McNemar exato pareado) e
+    densidade e tipos de smell entre os modelos;
+  - QP4 (exploratória, antiga QP3): mais o Spearman entre a dificuldade do exercício e a
+    diferença de densidade, e o descritivo por faixa de dificuldade;
+  - secundária: mais a trajetória dos avisos tentativa a tentativa e por tipo.
+- **Etapas:** a etapa 8 de tabelas por tipo foi removida (os testes foram para a etapa 6); o
+  banco SQLite (`src/08_banco.py`) passou a ser a etapa 8. Ele é derivado das tabelas e serve
+  só para consulta.
+- **Validação do classificador:** feita por um único avaliador; o segundo avaliador previsto na
+  seção 12 fica como pendência e entra como ameaça à validade. A amostra não inclui soluções do
+  Gemini; a regra é determinística e não depende da fonte.

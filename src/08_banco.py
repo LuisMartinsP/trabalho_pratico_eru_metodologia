@@ -1,4 +1,4 @@
-"""Etapa 9: monta o banco relacional dados/estudo.sqlite a partir das tabelas do pipeline.
+"""Etapa 8: monta o banco relacional dados/estudo.sqlite a partir das tabelas do pipeline.
 
 O banco é DERIVADO: os CSVs de dados/tabelas/ continuam sendo a fonte da verdade, e o
 arquivo é apagado e recriado a cada execução (rodou o pipeline, rode esta etapa de novo).
@@ -7,7 +7,8 @@ Não precisa instalar nada: o SQLite vem com o Python (módulo sqlite3).
 Tabelas
     fontes      (fonte PK)                        humano e cada LLM
     exercicios  (slug PK)                         dificuldade, esqueleto e o código do esqueleto
-    simbolos    (simbolo PK)                      tipo de smell, categoria do Pylint, descrição
+    simbolos    (simbolo PK)                      tipo de smell, categoria do Pylint, descrição e se
+                                                  é ignorado na análise principal (simbolos_ignorados)
     solucoes    (fonte, slug, tentativa) PK       status, aceita, sloc e o código da tentativa
     paradigmas  (fonte, slug, tentativa) PK/FK    pontos e rótulos (regras D, C e Dyer original)
     avisos      (id PK; fonte, slug, tentativa FK; simbolo FK)
@@ -20,15 +21,17 @@ Views (consultas prontas, usadas como tabelas)
     v_tipos_solucao  avisos por tipo em cada tentativa aceita (com zeros)
     v_pareado        humano × cada LLM no mesmo exercício (tentativas aceitas)
 
-As contagens e densidades das views usam só os avisos PRÓPRIOS (sem os herdados do
-esqueleto), como na análise principal; v_avisos traz todos, com a coluna herdado_esqueleto.
+As contagens e densidades das views seguem a análise principal: sem os avisos herdados do
+esqueleto e sem os símbolos ignorados (config/analise.yaml, simbolos_ignorados);
+densidade_com_estilo inclui os ignorados. v_avisos traz todos os avisos, com as colunas
+herdado_esqueleto e ignorado, para filtrar.
 A coluna `paradigma` segue a regra oficial e o filtro de config/analise.yaml.
 
 Uso (a partir da raiz do projeto, com o .venv ativado), depois das etapas 2 e 4:
-    python src/09_banco.py
+    python src/08_banco.py
 Exemplo de consulta:
     SELECT tipo, fonte, COUNT(*) FROM v_avisos
-    WHERE aceita AND NOT herdado_esqueleto GROUP BY tipo, fonte;
+    WHERE aceita AND NOT herdado_esqueleto AND NOT ignorado GROUP BY tipo, fonte;
 """
 import sqlite3
 import sys
@@ -63,7 +66,8 @@ CREATE TABLE simbolos (
     tipo             TEXT NOT NULL,
     ordem_tipo       INTEGER NOT NULL,
     categoria_pylint TEXT,
-    descricao        TEXT
+    descricao        TEXT,
+    ignorado         INTEGER NOT NULL CHECK (ignorado IN (0, 1))
 );
 CREATE TABLE solucoes (
     fonte        TEXT    NOT NULL REFERENCES fontes(fonte),
@@ -112,9 +116,12 @@ def views(regra, n_fontes):
     return f"""
 CREATE VIEW v_solucoes AS
 WITH proprios AS (
-    SELECT fonte, slug, tentativa,
-           SUM(NOT herdado_esqueleto) AS n_avisos, SUM(herdado_esqueleto) AS n_herdados
-    FROM avisos GROUP BY fonte, slug, tentativa
+    SELECT a.fonte, a.slug, a.tentativa,
+           SUM(NOT a.herdado_esqueleto AND NOT m.ignorado) AS n_avisos,
+           SUM(NOT a.herdado_esqueleto AND m.ignorado)     AS n_ignorados,
+           SUM(a.herdado_esqueleto)                        AS n_herdados
+    FROM avisos a JOIN simbolos m USING (simbolo)
+    GROUP BY a.fonte, a.slug, a.tentativa
 ), aceitos_em_todas AS (
     SELECT slug FROM solucoes WHERE aceita GROUP BY slug HAVING COUNT(DISTINCT fonte) = {n_fontes}
 )
@@ -132,8 +139,11 @@ SELECT s.fonte, f.apelido, f.eh_llm, s.slug, s.tentativa, s.status, s.aceita, s.
             AS frac_funcional,
        p.classes_novas,
        COALESCE(a.n_avisos, 0)   AS n_avisos,
+       COALESCE(a.n_ignorados, 0) AS n_ignorados,
        COALESCE(a.n_herdados, 0) AS n_herdados,
        CASE WHEN s.sloc > 0 THEN 100.0 * COALESCE(a.n_avisos, 0) / s.sloc END AS densidade,
+       CASE WHEN s.sloc > 0 THEN 100.0 * (COALESCE(a.n_avisos, 0) + COALESCE(a.n_ignorados, 0)) / s.sloc END
+            AS densidade_com_estilo,
        s.slug IN (SELECT slug FROM aceitos_em_todas) AS comparavel,
        s.codigo
 FROM solucoes s
@@ -151,14 +161,14 @@ SELECT a.id, a.fonte, v.apelido, a.slug, a.tentativa, v.aceita, v.comparavel,
        a.linha, a.codigo_da_linha,
        TRIM(a.codigo_da_linha) LIKE '#%' AS linha_e_comentario,
        TRIM(a.codigo_da_linha) = ''      AS linha_em_branco,
-       a.mensagem, a.herdado_esqueleto,
+       a.mensagem, a.herdado_esqueleto, m.ignorado,
        v.paradigma, v.tipo_esqueleto, v.grupo_esqueleto, v.dificuldade, v.sloc
 FROM avisos a
 JOIN simbolos m USING (simbolo)
 JOIN v_solucoes v USING (fonte, slug, tentativa);
 
 CREATE VIEW v_tipos_solucao AS
-WITH tipos AS (SELECT DISTINCT tipo, ordem_tipo FROM simbolos)
+WITH tipos AS (SELECT DISTINCT tipo, ordem_tipo FROM simbolos WHERE NOT ignorado)
 SELECT v.fonte, v.apelido, v.slug, v.tentativa, v.comparavel, v.paradigma, v.sloc,
        t.tipo, t.ordem_tipo,
        COUNT(a.id) AS n_avisos,
@@ -168,7 +178,7 @@ CROSS JOIN tipos t
 LEFT JOIN avisos a
        ON a.fonte = v.fonte AND a.slug = v.slug AND a.tentativa = v.tentativa
       AND NOT a.herdado_esqueleto
-      AND a.simbolo IN (SELECT simbolo FROM simbolos WHERE tipo = t.tipo)
+      AND a.simbolo IN (SELECT simbolo FROM simbolos WHERE tipo = t.tipo AND NOT ignorado)
 WHERE v.aceita
 GROUP BY v.fonte, v.slug, v.tentativa, t.tipo;
 
@@ -214,8 +224,10 @@ def montar(fontes, regra):
                               for s, a in zip(ex["slug"], ex["arquivo_solucao"])]
 
     categoria = av.drop_duplicates("simbolo").set_index("simbolo")["categoria"]
+    ignorados = set(T.analise()["smells"].get("simbolos_ignorados") or [])
     simbolos = pd.DataFrame([{"simbolo": s, "tipo": t, "ordem_tipo": ORDEM_TIPOS.index(t),
-                              "categoria_pylint": categoria.get(s), "descricao": DESCRICAO[s]}
+                              "categoria_pylint": categoria.get(s), "descricao": DESCRICAO[s],
+                              "ignorado": int(s in ignorados)}
                              for s, t in TIPO_DE.items()])
 
     sol = sol.copy()

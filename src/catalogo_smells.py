@@ -1,6 +1,6 @@
 """Catálogo de tipos de smell: cada símbolo do Pylint pertence a um tipo.
 
-Usado por 08_tipos_smells.py (tabelas por tipo) e 09_banco.py (tabela `simbolos` do banco).
+Usado por 06_cruzamento.py (smells por tipo) e 08_banco.py (tabela `simbolos` do banco).
 Para mudar um símbolo de tipo, edite aqui e rode as duas etapas de novo.
 """
 
@@ -11,6 +11,7 @@ TIPOS = {
         "trailing-whitespace": "espaços no fim da linha (inclui linha vazia com indentação)",
         "line-too-long": "linha com mais de 100 caracteres",
         "missing-final-newline": "arquivo sem quebra de linha no final",
+        "trailing-newlines": "linhas em branco sobrando no fim do arquivo",
         "superfluous-parens": "parênteses desnecessários após palavra-chave (if (x):, return (x))",
         "bad-indentation": "indentação que não é múltipla de 4 espaços",
     },
