@@ -348,3 +348,21 @@ Fixado antes de rodar o cruzamento entre paradigma e *smells*. Os parâmetros fi
 - **Validação do classificador:** feita por um único avaliador; o segundo avaliador previsto na
   seção 12 fica como pendência e entra como ameaça à validade. A amostra não inclui soluções do
   Gemini; a regra é determinística e não depende da fonte.
+- **Linhas de documentação (só exploração no banco, não na análise):** o `line-too-long` não
+  distingue código de documentação; no Gemini, 54 dos 108 casos são comentários de linha
+  inteira e 8 são linhas de docstring. A coluna `linha_de_documentacao` do banco marca os avisos
+  em comentários de linha inteira (linha que começa com `#`) ou em docstrings (identificadas pela
+  árvore sintática), para comparar as fontes com e sem documentação longa.
+  - **Por que comentários e docstrings juntos:** os dois são documentação, sem instrução
+    executável, e o PEP 8 trata os dois da mesma forma (limite próprio de 72 caracteres, separado
+    do de código). Separar um e manter o outro dividiria a documentação pela sintaxe (`#` ou `"""`),
+    sem motivo.
+  - **Por que o comentário no fim de uma linha de código continua contando:** a linha tem
+    código; se ela já era longa, o comentário não muda o problema, e separar os dois casos
+    exigiria decidir quanto da linha "é culpa" do comentário.
+  - **Por que fica fora da análise principal:** seria um segundo corte decidido depois de ver os
+    dados, sem precedente publicado (Siddiq et al. mantêm o `line-too-long` inteiro). Comentário
+    longo ou em excesso também é *smell* (*Comments*, no catálogo de Fowler), mas de natureza
+    diferente de uma linha de código longa; por isso a comparação é feita à parte, como exploração.
+  - Resultado (116 exercícios comuns): `line-too-long` com documentação 5 / 18 / 108 (humano /
+    gpt / Gemini); sem documentação 4 / 4 / 46.

@@ -17,7 +17,9 @@ Tabelas
 Views (consultas prontas, usadas como tabelas)
     v_solucoes       cada tentativa com exercício, paradigma oficial, nº de avisos e densidade
     v_comparaveis    tentativas aceitas dos exercícios aceitos em TODAS as fontes
-    v_avisos         cada aviso com tipo, descrição, paradigma da solução e esqueleto
+    v_avisos         cada aviso com tipo, descrição, paradigma da solução e esqueleto; as colunas
+                     linha_e_comentario (linha começa com #) e linha_de_documentacao (comentário
+                     de linha inteira ou docstring) servem para separar documentação de código
     v_tipos_solucao  avisos por tipo em cada tentativa aceita (com zeros)
     v_pareado        humano × cada LLM no mesmo exercício (tentativas aceitas)
 
@@ -33,6 +35,7 @@ Exemplo de consulta:
     SELECT tipo, fonte, COUNT(*) FROM v_avisos
     WHERE aceita AND NOT herdado_esqueleto AND NOT ignorado GROUP BY tipo, fonte;
 """
+import ast
 import sqlite3
 import sys
 from pathlib import Path
@@ -102,6 +105,7 @@ CREATE TABLE avisos (
     codigo_pylint     TEXT,
     linha             INTEGER,
     codigo_da_linha   TEXT,
+    linha_de_documentacao INTEGER NOT NULL,  -- comentário de linha inteira ou linha de docstring
     mensagem          TEXT,
     herdado_esqueleto INTEGER NOT NULL,
     FOREIGN KEY (fonte, slug, tentativa) REFERENCES solucoes (fonte, slug, tentativa)
@@ -160,6 +164,7 @@ SELECT a.id, a.fonte, v.apelido, a.slug, a.tentativa, v.aceita, v.comparavel,
        m.tipo, a.simbolo, m.categoria_pylint, m.descricao,
        a.linha, a.codigo_da_linha,
        TRIM(a.codigo_da_linha) LIKE '#%' AS linha_e_comentario,
+       a.linha_de_documentacao,
        TRIM(a.codigo_da_linha) = ''      AS linha_em_branco,
        a.mensagem, a.herdado_esqueleto, m.ignorado,
        v.paradigma, v.tipo_esqueleto, v.grupo_esqueleto, v.dificuldade, v.sloc
@@ -198,6 +203,23 @@ FROM v_solucoes h
 JOIN v_solucoes m ON m.slug = h.slug AND m.eh_llm AND m.aceita
 WHERE h.fonte = 'referencia' AND h.aceita;
 """
+
+
+def linhas_de_docstring(codigo):
+    """Números das linhas ocupadas por docstrings (de módulo, classe ou função), pela árvore
+    sintática. Código com erro de sintaxe devolve conjunto vazio."""
+    try:
+        arvore = ast.parse(codigo)
+    except SyntaxError:
+        return set()
+    linhas = set()
+    for no in ast.walk(arvore):
+        if isinstance(no, (ast.Module, ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)) and no.body:
+            primeiro = no.body[0]
+            if (isinstance(primeiro, ast.Expr) and isinstance(primeiro.value, ast.Constant)
+                    and isinstance(primeiro.value.value, str)):
+                linhas.update(range(primeiro.lineno, primeiro.end_lineno + 1))
+    return linhas
 
 
 def ler_codigo(caminho):
@@ -247,7 +269,13 @@ def montar(fontes, regra):
 
     av = av.rename(columns={"codigo": "codigo_pylint"})
     av["codigo_da_linha"] = [linha(r) for r in av.itertuples()]
+    docs = {k: linhas_de_docstring(c or "") for k, c in
+            zip(zip(sol["fonte"], sol["slug"], sol["tentativa"]), sol["codigo"])}
+    av["linha_de_documentacao"] = [
+        int((c or "").strip().startswith("#") or r.linha in docs.get((r.fonte, r.slug, r.tentativa), ()))
+        for r, c in zip(av.itertuples(), av["codigo_da_linha"])]
     av = av[["fonte", "slug", "tentativa", "simbolo", "codigo_pylint", "linha", "codigo_da_linha",
+             "linha_de_documentacao",
              "mensagem", "herdado_esqueleto"]]
 
     for df, cols in [(sol, ["aceita", "ultima", "tem_codigo", "erro_sintaxe"]), (av, ["herdado_esqueleto"])]:
